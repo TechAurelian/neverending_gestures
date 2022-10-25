@@ -1,9 +1,14 @@
-import 'package:neverendinggestures/widgets/gestures_area.dart';
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/gestures_area.dart';
 
 /// Helper class that saves and reads app settings to persistent storage.
 class SettingsProvider {
-  static const Map<GestureType, String> _counterKeys = const {
+  static const Map<GestureType, String> _counterKeys = {
     GestureType.tap: 'counter_tap',
     GestureType.doubleTap: 'counter_double_tap',
     GestureType.longPress: 'counter_long_press',
@@ -34,15 +39,15 @@ class SettingsProvider {
   static Future<void> setCounters(Map<GestureType, int> counters) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     counters.forEach((key, value) async {
-      await prefs.setInt(_counterKeys[key], value);
+      await prefs.setInt(_counterKeys[key]!, value);
     });
   }
 
   /// Reads the values of the gestures counters from persistent storage.
   static Future<void> getCounters(Map<GestureType, int> counters) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    counters.keys.forEach((key) {
-      counters[key] = prefs.getInt(_counterKeys[key]) ?? 0;
-    });
+    for (var key in counters.keys) {
+      counters[key] = prefs.getInt(_counterKeys[key]!) ?? 0;
+    }
   }
 }

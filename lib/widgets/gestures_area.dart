@@ -1,29 +1,33 @@
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:neverendinggestures/widgets/counter_style.dart';
+
+import 'counter_style.dart';
 
 enum GestureType { tap, doubleTap, longPress, swipe }
 
 class GesturesArea extends StatelessWidget {
+  const GesturesArea({
+    super.key,
+    required this.counter,
+    required this.counterStyle,
+    this.gestureType = GestureType.tap,
+    this.onGesture,
+  });
+
   final int counter;
   final GestureType gestureType;
-  final void Function() onGesture;
+  final void Function()? onGesture;
   final CounterStyle counterStyle;
 
-  GesturesArea(
-      {Key key,
-      @required this.counter,
-      this.gestureType,
-      this.onGesture,
-      @required this.counterStyle})
-      : super(key: key);
-
   void callOnGesture(GestureType detectedGestureType) {
-    if (gestureType == detectedGestureType) onGesture();
+    if (gestureType == detectedGestureType) onGesture?.call();
   }
 
   void onPanEnd(DragEndDetails details) {
-    onGesture();
+    onGesture?.call();
   }
 
   @override
@@ -37,7 +41,7 @@ class GesturesArea extends StatelessWidget {
       onLongPress: gestureType == GestureType.longPress ? onGesture : null,
       onPanEnd: gestureType == GestureType.swipe ? onPanEnd : null,
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         color: counterStyle.backColor,
         alignment: counterStyle.alignment,
         child: Text(

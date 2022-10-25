@@ -1,17 +1,24 @@
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
-import 'package:neverendinggestures/common/app_strings.dart';
-import 'package:neverendinggestures/common/settings_provider.dart';
-import 'package:neverendinggestures/widgets/counter_style.dart';
-import 'package:neverendinggestures/widgets/gestures_area.dart';
+
+import '../common/app_strings.dart';
+import '../common/settings_provider.dart';
+import '../widgets/counter_style.dart';
+import '../widgets/gestures_area.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   /// The current counter values for each gesture type
-  Map<GestureType, int> _counters = Map<GestureType, int>();
+  final Map<GestureType, int> _counters = <GestureType, int>{};
 
   /// Current gesture type
   GestureType _gestureType = GestureType.tap;
@@ -21,7 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _HomeScreenState() {
     // Init counters to 0
-    GestureType.values.forEach((type) => _counters[type] = 0);
+    for (var type in GestureType.values) {
+      _counters[type] = 0;
+    }
   }
 
   @override
@@ -54,10 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
 //        title: Text(AppStrings.appName),
-        title: Text(AppStrings.gestureDrawerTitles[_gestureType]),
+        title: Text(AppStrings.gestureDrawerTitles[_gestureType]!),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.style),
+            icon: const Icon(Icons.style),
             onPressed: _doShuffleStyles,
           )
         ],
@@ -65,22 +74,22 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               child: Text(AppStrings.drawerTitle),
             ),
             ...GestureType.values.map((type) => ListTile(
-                  title: Text(AppStrings.gestureDrawerTitles[type]),
+                  title: Text(AppStrings.gestureDrawerTitles[type]!),
                   onTap: () => _onDrawerGestureTap(type),
                 )),
           ],
         ),
       ),
       body: GesturesArea(
-        counter: _counters[_gestureType],
+        counter: _counters[_gestureType]!,
         gestureType: _gestureType,
         onGesture: () {
           setState(() {
-            _counters[_gestureType]++;
+            _counters[_gestureType] = _counters[_gestureType]! + 1;
           });
           SettingsProvider.setCounters(_counters);
         },

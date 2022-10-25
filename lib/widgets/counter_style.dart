@@ -1,13 +1,16 @@
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'dart:math';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-import 'package:neverendinggestures/utils/utils.dart';
-import 'package:neverendinggestures/utils/color_utils.dart';
+import '../utils/utils.dart';
+import '../utils/color_utils.dart';
 
 class CounterStyle {
-  Color backColor;
+  Color backColor = Colors.white;
 
   static const double _minFontSize = 10.0;
   static const double _maxFontSize = 112.0;
@@ -42,14 +45,22 @@ class CounterStyle {
 
   final Random _random = Random();
 
-  static const _alignmentValues = [Alignment.topLeft, Alignment.topCenter, Alignment.topRight,
-    Alignment.centerLeft, Alignment.center, Alignment.centerRight,
-    Alignment.bottomLeft, Alignment.bottomCenter, Alignment.bottomRight];
+  static const _alignmentValues = [
+    Alignment.topLeft,
+    Alignment.topCenter,
+    Alignment.topRight,
+    Alignment.centerLeft,
+    Alignment.center,
+    Alignment.centerRight,
+    Alignment.bottomLeft,
+    Alignment.bottomCenter,
+    Alignment.bottomRight
+  ];
 
   Alignment alignment = Alignment.center;
 
   /// The text style
-  TextStyle _textStyle = TextStyle();
+  TextStyle _textStyle = const TextStyle();
 
   TextStyle get textStyle => _textStyle;
 
